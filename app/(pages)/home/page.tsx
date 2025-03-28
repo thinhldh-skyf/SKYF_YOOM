@@ -19,7 +19,7 @@ export default function Page() {
 }
 
 export const metadata: Metadata = {
-  title: "YOOM - Trang chủ",
+  title: "SKYFTutor - Trang chủ",
   description:
     "Nền tảng hội nghị truyền hình miễn phí trên web dành cho cá nhân và doanh nghiệp.",
   icons: {
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   },
 
   openGraph: mergeOpenGraph({
-    title: "YOOM - Trang chủ",
+    title: "SKYFTutor - Trang chủ",
     url: "/",
   }),
 };

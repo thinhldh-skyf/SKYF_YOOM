@@ -4,7 +4,6 @@ import { mergeOpenGraph } from "@/lib/mergeOpenGraph";
 import { Meeting } from "./components/meeting";
 
 export default function Page({ params }: { params: { id: string } }) {
-
   return (
     <section className="pt-24 bg-dark-1 text-white h-screen w-screen">
       <Container>
@@ -15,14 +14,14 @@ export default function Page({ params }: { params: { id: string } }) {
 }
 
 export const metadata: Metadata = {
-  title: "SKYF YOOM - Thiết lập cuộc họp",
-  description: "SKYF YOOM - Thiết lập cuộc họp",
+  title: "SKYTutor - Thiết lập cuộc họp",
+  description: "SKYTutor - Thiết lập cuộc họp",
   icons: {
     icon: "/logo/logo.svg",
   },
 
   openGraph: mergeOpenGraph({
-    title: "SKYF YOOM - Thiết lập cuộc họp",
+    title: "SKYTutor - Thiết lập cuộc họp",
     url: "/",
   }),
 };

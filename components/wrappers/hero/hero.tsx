@@ -13,7 +13,7 @@ export const Hero = () => {
               Một nền tảng duy nhất để kết nối
             </p>
             <h1 className="mt-4 text-4xl font-bold text-black lg:mt-8 s:text-6xl xl:text-8xl">
-              SKYF YOOM: Gọi video & chat miễn phí
+              SKYTutor: Gọi video & chat miễn phí
             </h1>
             <p className="mt-4 text-base text-black lg:mt-8 sm:text-xl">
               Dịch vụ hội họp từ xa qua video.

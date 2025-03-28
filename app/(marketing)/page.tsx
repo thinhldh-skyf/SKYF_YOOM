@@ -7,14 +7,14 @@ export default function Page() {
 }
 
 export const metadata: Metadata = {
-  title: "SKYF YOOM - Trang Marketing",
+  title: "SKYTutor - Trang Marketing",
   description: "Ứng dụng gọi video",
   icons: {
     icon: "/logo/logo.svg",
   },
 
   openGraph: mergeOpenGraph({
-    title: "SKYF YOOM - Trang Marketing",
+    title: "SKYTutor - Trang Marketing",
     url: "/",
   }),
 };

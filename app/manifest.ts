@@ -2,8 +2,8 @@ import { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "SKYF YOOM",
-    short_name: "skyf yoom",
+    name: "SKYTutor",
+    short_name: "SKYTutor",
     description:
       "Nền tảng hội họp video miễn phí dành cho cá nhân và doanh nghiệp.",
     start_url: "/",

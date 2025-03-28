@@ -4,7 +4,7 @@ import { Metadata } from "next";
 //SEO GLOBAL
 export const metadata: Metadata = {
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:3000/"
+    process.env.NEXT_PUBLIC_BASE_URL || "https://skyf.vercel.app"
   ),
   applicationName: "zoom",
   keywords: ["nextjs", "zoom", "live"],
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     },
   },
 
-  manifest: `  ${process.env.NEXT_PUBLIC_SERVER_URL}/manifest.json`,
+  manifest: `https://skyf.vercel.app/manifest.json`,
 
   icons: {
     icon: "/favicon.ico",
@@ -39,11 +39,11 @@ export const metadata: Metadata = {
 
   twitter: {
     card: "summary_large_image",
-    title: "SKYF Yoom",
+    title: "SKYTutor",
     description: "Nền tảng phát trực tiếp và họp video",
     siteId: "",
     creator: "SKYF",
-    images: [` ${process.env.NEXT_PUBLIC_SERVER_URL}/images/og.jpg`],
+    images: [`https://skyf.vercel.app/images/og.jpg`],
   },
 
   openGraph: mergeOpenGraph(),

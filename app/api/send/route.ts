@@ -9,9 +9,9 @@ export async function POST(req: Request) {
     const { name, email } = body;
 
     const data = await resend.emails.send({
-      from: "SKYF Yoom <skyf@gmail.com>",
+      from: "SKYTutor <skyf@gmail.com>",
       to: [`${email}`],
-      subject: "Bạn được mời tham gia cuộc họp trên SKYF YOOM",
+      subject: "Bạn được mời tham gia cuộc họp trên SKYTutor",
       react: EmailTemplate({ firstName: name }),
     });
 

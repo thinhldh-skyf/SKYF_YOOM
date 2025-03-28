@@ -1,30 +1,30 @@
-import { MetadataRoute } from 'next'
+import { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
-      url: ` ${process.env.NEXT_PUBLIC_SERVER_URL}`,
+      url: `https://skyf.vercel.app`,
       lastModified: new Date(),
-      changeFrequency: 'daily',
+      changeFrequency: "daily",
       priority: 1,
     },
     {
-      url: ` ${process.env.NEXT_PUBLIC_SERVER_URL}/meeting/upcoming `,
+      url: `https://skyf.vercel.app/meeting/upcoming `,
       lastModified: new Date(),
-      changeFrequency: 'daily',
+      changeFrequency: "daily",
       priority: 1,
     },
     {
-      url: ` ${process.env.NEXT_PUBLIC_SERVER_URL}/meeting/previous `,
+      url: `https://skyf.vercel.app/meeting/previous `,
       lastModified: new Date(),
-      changeFrequency: 'daily',
+      changeFrequency: "daily",
       priority: 1,
     },
     {
-      url: ` ${process.env.NEXT_PUBLIC_SERVER_URL}/personalroom `,
+      url: `https://skyf.vercel.app/personalroom `,
       lastModified: new Date(),
-      changeFrequency: 'daily',
+      changeFrequency: "daily",
       priority: 1,
-    }
-  ]
+    },
+  ];
 }

@@ -16,14 +16,14 @@ export default function Page() {
 }
 
 export const metadata: Metadata = {
-  title: "SKYF YOOM - Phòng cá nhân",
+  title: "SKYTutor - Phòng cá nhân",
   description: "Ứng dụng gọi video",
   icons: {
     icon: "/logo/logo.png",
   },
 
   openGraph: mergeOpenGraph({
-    title: "SKYF YOOM - Phòng cá nhân",
+    title: "SKYTutor - Phòng cá nhân",
     url: "/personalroom",
   }),
 };

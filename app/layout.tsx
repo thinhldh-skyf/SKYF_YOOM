@@ -8,10 +8,10 @@ import { mergeOpenGraph } from "@/lib/mergeOpenGraph";
 //SEO GLOBAL
 export const metadata: Metadata = {
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:3000/"
+    process.env.NEXT_PUBLIC_BASE_URL || "https://skyf.vercel.app"
   ),
-  applicationName: "SKYF YOOM app",
-  keywords: ["nextjs", "zoom", "video", "netlify", "yoom", "skyf"],
+  applicationName: "SKYTutor app",
+  keywords: ["nextjs", "zoom", "video", "netlify", "SKYFTutor", "skyf"],
   authors: [{ name: "skyf", url: "https://skyf.vercel.app" }],
   publisher: "skyf",
 
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     },
   },
 
-  manifest: `  ${process.env.NEXT_PUBLIC_SERVER_URL}/manifest.json`,
+  manifest: `https://skyf.vercel.app/manifest.json`,
 
   icons: {
     icon: "/logo/logo.png",
@@ -42,12 +42,11 @@ export const metadata: Metadata = {
 
   twitter: {
     card: "summary_large_image",
-    title: "Ứng dụng SKYF YOOM",
-    description:
-      "YOOM App: Nền tảng hội họp video miễn phí dành cho cá nhân và doanh nghiệp.",
+    title: "Ứng dụng SKYTutor",
+    description: "SKYFTutor: Nền tảng booking giáo viên phổ biến nhất hiện nay",
     siteId: "",
     creator: "SKYF",
-    images: [`${process.env.NEXT_PUBLIC_SERVER_URL}/logo/logo.png`],
+    images: [`https://skyf.vercel.app/logo/logo.png`],
   },
 };
 

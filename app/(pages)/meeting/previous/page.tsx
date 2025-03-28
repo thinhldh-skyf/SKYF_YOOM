@@ -16,14 +16,14 @@ export default function Page() {
 }
 
 export const metadata: Metadata = {
-  title: "SKYF YOOM - Cuộc họp đã kết thúc",
+  title: "SKYTutor - Cuộc họp đã kết thúc",
   description: "Application d'appel vidéo",
   icons: {
     icon: "/logo/logo.svg",
   },
 
   openGraph: mergeOpenGraph({
-    title: "SKYF YOOM - Cuộc họp đã kết thúc",
+    title: "SKYTutor - Cuộc họp đã kết thúc",
     url: "/meeting/previous",
   }),
 };

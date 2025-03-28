@@ -47,7 +47,7 @@ export const MeetingSetup = ({
   return (
     <>
       <Col className="items-center justify-center items-center h-full gap-8">
-        <Heading title="Configuration de la réunion" />
+        <Heading title="Thiết lập cuộc họp" />
         <VideoPreview />
 
         <div className="flex items-center space-x-8">

@@ -93,7 +93,7 @@ export const HoverEffect = ({
       toast("Cuộc họp đã được tạo");
     } catch (error) {
       console.error(error);
-      toast("Réunion echouée");
+      toast("Cuộc họp thất bại");
     }
   };
 

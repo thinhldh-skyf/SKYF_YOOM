@@ -22,7 +22,7 @@ const tutors = [
     students: "15",
     rating: 4.5,
     price: 10,
-    review: 6,
+    reviews: 6,
     description:
       "Certified tutor with 5 years of experience — Hello everyone, my name is Nghiem. I'm from Da Nang city. Currently I'm living and working in Hanoi the capital Vietnam. Vietnamese is my mother tongue, I can speak with northern accents and southern accents.\nWith the long-term experience, I will help you learn Vietnamese in the fastest and most effective way by teaching methods suitable to each person's ability.",
   },
@@ -35,7 +35,7 @@ const tutors = [
     students: "60",
     rating: 4.8,
     price: 15,
-    review: 8,
+    reviews: 8,
     description:
       "Certified tutor with 5 years of experience — Hello everyone, my name is Nghiem. I'm from Da Nang city. Currently I'm living and working in Hanoi the capital Vietnam. Vietnamese is my mother tongue, I can speak with northern accents and southern accents.\nWith the long-term experience, I will help you learn Vietnamese in the fastest and most effective way by teaching methods suitable to each person's ability.",
   },
@@ -48,7 +48,7 @@ const tutors = [
     students: "15",
     rating: 5,
     price: 20,
-    review: 6,
+    reviews: 6,
     description:
       "Certified tutor with 5 years of experience — Hello everyone, my name is Nghiem. I'm from Da Nang city. Currently I'm living and working in Hanoi the capital Vietnam. Vietnamese is my mother tongue, I can speak with northern accents and southern accents.\nWith the long-term experience, I will help you learn Vietnamese in the fastest and most effective way by teaching methods suitable to each person's ability.",
   },
@@ -61,7 +61,7 @@ const tutors = [
     students: "15",
     rating: 4.6,
     price: 20,
-    review: 7,
+    reviews: 7,
     description:
       "Certified tutor with 5 years of experience — Hello everyone, my name is Nghiem. I'm from Da Nang city. Currently I'm living and working in Hanoi the capital Vietnam. Vietnamese is my mother tongue, I can speak with northern accents and southern accents.\nWith the long-term experience, I will help you learn Vietnamese in the fastest and most effective way by teaching methods suitable to each person's ability.",
   },
@@ -74,7 +74,7 @@ const tutors = [
     students: "15",
     rating: 5,
     price: 25,
-    review: 10,
+    reviews: 10,
     description:
       "Certified tutor with 5 years of experience — Hello everyone, my name is Nghiem. I'm from Da Nang city. Currently I'm living and working in Hanoi the capital Vietnam. Vietnamese is my mother tongue, I can speak with northern accents and southern accents.\nWith the long-term experience, I will help you learn Vietnamese in the fastest and most effective way by teaching methods suitable to each person's ability.",
   },

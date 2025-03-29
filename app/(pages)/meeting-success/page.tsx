@@ -18,7 +18,7 @@ export default function MeetingSuccess() {
     if (hasRun.current || !client) return;
 
     hasRun.current = true;
-    
+
     const createAndRedirectMeeting = async () => {
       if (!client) {
         toast.error("Lỗi kết nối Stream API");
@@ -31,7 +31,7 @@ export default function MeetingSuccess() {
       try {
         await call.getOrCreate({
           data: {
-            starts_at: meetingTime,
+            starts_at: meetingTime || undefined,
             custom: { description },
           },
         });

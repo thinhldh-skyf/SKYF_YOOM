@@ -17,7 +17,6 @@ export async function POST(req: NextRequest) {
     }
     const userEmail = user.emailAddresses[0].emailAddress;
 
-
     const meeting = await db.meeting.create({
       data: {
         callId,

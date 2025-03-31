@@ -22,12 +22,9 @@ export const HeroTwo = () => {
         }}
         className="text-4xl self-end leading-[44px] px-4 md:text-4xl lg:text-4xl font-bold text-neutral-700 dark:text-white max-w-4xl leading-relaxed lg:leading-snug text-center mx-auto "
       >
-        <span className="text-primary-400 font-extrabold">SKYTutor,</span> nền
-        tảng booking giáo viên
+        <span className="text-primary-400 font-extrabold">SKYTutor,</span> the
+        most popular teacher booking platform available today.
         <br />
-        <Highlight className="text-black dark:text-white">
-          phổ biến nhất hiện nay.
-        </Highlight>
       </motion.h1>
 
       <motion.div
@@ -48,7 +45,7 @@ export const HeroTwo = () => {
           onClick={() => router.push("/home")}
           className="text-xl inline-flex h-12 w-[320px] animate-shimmer items-center justify-center rounded-full px-20 py-8 bg-primary-400 text-white border-2 border-primary-400 hover:border-black hover:bg-white hover:bg-white hover:text-black transition-all  hover:scale-110 duration-400 hover:shadow-lg"
         >
-          Tham gia ngay
+          Get started now
         </button>
       </motion.div>
     </HeroHighlight>

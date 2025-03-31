@@ -1,5 +1,5 @@
-'use client';
-import { useState } from 'react';
+"use client";
+import { useState } from "react";
 import {
   CallControls,
   CallParticipantsList,
@@ -8,52 +8,52 @@ import {
   PaginatedGridLayout,
   SpeakerLayout,
   useCallStateHooks,
-} from '@stream-io/video-react-sdk';
-import { useRouter, useSearchParams, usePathname } from 'next/navigation';
-import { Users, LayoutList, Share } from 'lucide-react';
+} from "@stream-io/video-react-sdk";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
+import { Users, LayoutList, Share } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { Loader } from '@/components/ui/loader';
-import EndCallButton from './end-call-button';
-import { cn } from '@/lib/utils';
-import ModalMeeting from '@/components/ui/modal-meeting';
+} from "@/components/ui/dropdown-menu";
+import { Loader } from "@/components/ui/loader";
+import EndCallButton from "./end-call-button";
+import { cn } from "@/lib/utils";
+import ModalMeeting from "@/components/ui/modal-meeting";
 import { Input } from "@/components/ui/input";
-import sendEmail from '@/actions/sendemail'
+import sendEmail from "@/actions/sendemail";
 
-type CallLayoutType = 'grid' | 'speaker-left' | 'speaker-right';
+type CallLayoutType = "grid" | "speaker-left" | "speaker-right";
 
 export const MeetingRoom = () => {
-
   const initialValues = {
     email: "hoangrey272284@gmail.com",
     name: "hoangrey",
   };
 
-  const pathname = usePathname()
+  const pathname = usePathname();
   const searchParams = useSearchParams();
-  const isPersonalRoom = !!searchParams.get('personal');
+  const isPersonalRoom = !!searchParams.get("personal");
   const router = useRouter();
-  const [layout, setLayout] = useState < CallLayoutType > ('speaker-left');
+  const [layout, setLayout] = useState<CallLayoutType>("speaker-left");
   const [showParticipants, setShowParticipants] = useState(false);
   const { useCallCallingState } = useCallStateHooks();
 
-  const [meetingState, setMeetingState] = useState < 'shareLink' | undefined > (undefined);
+  const [meetingState, setMeetingState] = useState<"shareLink" | undefined>(
+    undefined
+  );
   const [values, setValues] = useState(initialValues);
   const callingState = useCallCallingState();
-
 
   if (callingState !== CallingState.JOINED) return <Loader />;
 
   const CallLayout = () => {
     switch (layout) {
-      case 'grid':
+      case "grid":
         return <PaginatedGridLayout />;
-      case 'speaker-right':
+      case "speaker-right":
         return <SpeakerLayout participantsBarPosition="left" />;
       default:
         return <SpeakerLayout participantsBarPosition="right" />;
@@ -62,8 +62,7 @@ export const MeetingRoom = () => {
 
   const handleClick = async () => {
     await sendEmail(values);
-  }
-
+  };
 
   return (
     <section className="relative w-full overflow-hidden text-white">
@@ -72,7 +71,10 @@ export const MeetingRoom = () => {
           <CallLayout />
         </div>
         <div
-          className={cn('shadow-lg bg-dark-2 px-8 pt-20 transition-all w-[320px] fixed transition-all right-0 top-0 min-h-screen', showParticipants ? 'block' : 'hidden')}
+          className={cn(
+            "shadow-lg bg-dark-2 px-8 pt-20 transition-all w-[320px] fixed transition-all right-0 top-0 min-h-screen",
+            showParticipants ? "block" : "hidden"
+          )}
         >
           <CallParticipantsList onClose={() => setShowParticipants(false)} />
         </div>
@@ -89,7 +91,7 @@ export const MeetingRoom = () => {
               </DropdownMenuTrigger>
             </div>
             <DropdownMenuContent className="border-dark-1 bg-dark-1 text-white">
-              {['Grid', 'Speaker-Left', 'Speaker-Right'].map((item, index) => (
+              {["Grid", "Speaker-Left", "Speaker-Right"].map((item, index) => (
                 <div key={index}>
                   <DropdownMenuItem
                     onClick={() =>
@@ -104,7 +106,10 @@ export const MeetingRoom = () => {
             </DropdownMenuContent>
           </DropdownMenu>
           <CallStatsButton />
-          <button title='Người tham gia' onClick={() => setShowParticipants((prev) => !prev)}>
+          <button
+            title="Người tham gia"
+            onClick={() => setShowParticipants((prev) => !prev)}
+          >
             <div className=" cursor-pointer rounded-2xl bg-[#19232d] px-4 py-2 hover:bg-[#4c535b]  ">
               <Users size={20} className="text-white" />
             </div>
@@ -116,28 +121,31 @@ export const MeetingRoom = () => {
           </button> */}
           {!isPersonalRoom && <EndCallButton />}
         </div>
-
       </div>
 
       <ModalMeeting
-        title='Chia sẻ liên kết'
-        isOpen={meetingState === 'shareLink'}
-        onClose={() => { setMeetingState(undefined); }}
+        title="Share Link"
+        isOpen={meetingState === "shareLink"}
+        onClose={() => {
+          setMeetingState(undefined);
+        }}
         className="text-center"
-        buttonText="Chia sẻ"
-        handleClick={handleClick} >
-        <Input required
-          placeholder="Vui lòng nhập địa chỉ email người nhận"
+        buttonText="Share"
+        handleClick={handleClick}
+      >
+        <Input
+          required
+          placeholder="Please enter the recipient's email address."
           onChange={(e: any) => setValues({ ...values, email: e.target.value })}
           className="border-none text-center text-black text-xl bg-dark-3 focus-visible:ring-0 focus-visible:ring-offset-0"
         />
-        <Input required
-          placeholder="Vui lòng nhập tên người nhận"
+        <Input
+          required
+          placeholder="Please enter the recipient's name."
           onChange={(e: any) => setValues({ ...values, name: e.target.value })}
           className="border-none text-center text-black text-xl bg-dark-3 focus-visible:ring-0 focus-visible:ring-offset-0"
         />
       </ModalMeeting>
-
     </section>
   );
 };

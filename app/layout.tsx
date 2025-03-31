@@ -42,8 +42,9 @@ export const metadata: Metadata = {
 
   twitter: {
     card: "summary_large_image",
-    title: "Ứng dụng SKYTutor",
-    description: "SKYFTutor: Nền tảng booking giáo viên phổ biến nhất hiện nay",
+    title: "SKYTutor Application",
+    description:
+      "SKYFTutor: Today’s most popular platform for booking teachers",
     siteId: "",
     creator: "SKYF",
     images: [`https://skyf.vercel.app/logo/logo.png`],

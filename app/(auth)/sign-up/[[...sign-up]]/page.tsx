@@ -3,7 +3,7 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "SKYTutor",
-  description: "Ứng dụng gọi video",
+  description: "Video call application",
   icons: {
     icon: "/logo/logo.svg",
   },

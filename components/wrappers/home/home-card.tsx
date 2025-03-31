@@ -1,36 +1,25 @@
 "use client";
 import React from "react";
-import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 export const HomeCard = () => {
-  const now = new Date();
-
-  const time = now.toLocaleTimeString("vn-VN", {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-  const date = new Intl.DateTimeFormat("vn-VN", { dateStyle: "full" }).format(
-    now
-  );
-
   return (
-    <div
-      className="w-full h-full bg-[url('/images/card_bg.jpg')] 
-    bg-cover rounded-lg p-12"
-    >
-      <div className="flex flex-col justify-between gap-1 items-center md:items-start h-full">
-        <Button className="bg-dark-2 text-white w-fit text-sm font-normal">
-          Giờ chuẩn UTC+7
-        </Button>
-        <div className="flex flex-col gap-2 h-full mt-auto items-center md:items-start justify-end">
-          <h1 className="text-2xl md:text-4xl lg:text-6xl font-extrabold text-white">
-            {time}
-          </h1>
-          <p className="text-sky-200 text-base lg:text-[24px] capitalize">
-            {date}
-          </p>
-        </div>
-      </div>
+    <div className="w-full h-full flex flex-col items-center justify-center rounded-lg">
+      {/* <h1 className="text-xl md:text-3xl lg:text-4xl font-extrabold text-white mb-2 text-center">
+        Personalized 1-on-1 Tutoring
+      </h1>
+      <p className="text-white text-sm md:text-base mb-4 text-center max-w-2xl">
+        Experience tailored learning, direct interaction, and maximum
+        effectiveness with the best tutors, wherever you are.
+      </p> */}
+      <Image
+        src="/images/image.png"
+        alt="Tutor 1:1"
+        width={1280}
+        height={1280}
+        layout="responsive"
+        className="object-cover rounded-lg shadow-xl w-full h-[350px]"
+      />
     </div>
   );
 };

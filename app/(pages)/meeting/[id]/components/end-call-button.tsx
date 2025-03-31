@@ -32,7 +32,7 @@ const EndCallButton = () => {
 
   return (
     <Button onClick={endCall} className="bg-red-500">
-      Dừng cuộc họp
+      Stop
     </Button>
   );
 };

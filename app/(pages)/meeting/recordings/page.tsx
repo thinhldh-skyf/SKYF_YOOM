@@ -8,7 +8,7 @@ export default function Page() {
   return (
     <section className="pt-24 bg-dark-1 flex-1 text-white min-h-screen">
       <Container>
-        <Heading title="Cuộc họp đã ghi lại" />
+        <Heading title="Meeting recorded." />
         <Meeting show={6} type="recordings" />
       </Container>
     </section>
@@ -16,14 +16,14 @@ export default function Page() {
 }
 
 export const metadata: Metadata = {
-  title: "SKYTutor - Cuộc họp đã ghi lại",
-  description: "Application d'appel vidéo",
+  title: "SKYTutor - Meeting recorded.",
+  description: "Video call appo",
   icons: {
     icon: "/logo/logo.svg",
   },
 
   openGraph: mergeOpenGraph({
-    title: "SKYTutor - Cuộc họp đã ghi lại",
+    title: "SKYTutor - Meeting recorded.",
     url: "/meeting/previous",
   }),
 };

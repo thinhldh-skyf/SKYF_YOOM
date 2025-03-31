@@ -7,14 +7,14 @@ export default function Page() {
 }
 
 export const metadata: Metadata = {
-  title: "SKYTutor - Trang Marketing",
-  description: "Ứng dụng gọi video",
+  title: "SKYTutor - Marketing",
+  description: "Video call application",
   icons: {
     icon: "/logo/logo.svg",
   },
 
   openGraph: mergeOpenGraph({
-    title: "SKYTutor - Trang Marketing",
+    title: "SKYTutor - Marketing",
     url: "/",
   }),
 };

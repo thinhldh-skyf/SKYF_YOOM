@@ -47,7 +47,7 @@ export const MeetingSetup = ({
   return (
     <>
       <Col className="items-center justify-center items-center h-full gap-8">
-        <Heading title="Thiết lập cuộc họp" />
+        <Heading title="Setup meeting" />
         <VideoPreview />
 
         <div className="flex items-center space-x-8">
@@ -57,7 +57,7 @@ export const MeetingSetup = ({
             id="terms"
           />
           <Label htmlFor="terms" className="text-xl cursor-pointer">
-            Tắt camera và micrô
+            Turn off camera and micro
           </Label>
           <div className="w-10 h-10">
             <DeviceSettings />
@@ -72,7 +72,7 @@ export const MeetingSetup = ({
             setSetupCompleted(true);
           }}
         >
-          Tham gia cuộc họp
+          Join meeting
         </Button>
       </Col>
     </>

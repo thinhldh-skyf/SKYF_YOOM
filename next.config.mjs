@@ -18,6 +18,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "cdn.rareblocks.xyz",
       },
+      {
+        protocol: "https",
+        hostname: "avatars.preply.com",
+      },
     ],
   },
 };

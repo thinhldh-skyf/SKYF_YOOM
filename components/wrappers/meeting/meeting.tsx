@@ -105,7 +105,7 @@ export const Meeting = ({
               buttonIcon1={
                 type === "recordings" ? "/icons/play.svg" : undefined
               }
-              buttonText={type === "recordings" ? "Xem lại" : "Bắt đầu"}
+              buttonText={type === "recordings" ? "Review" : "Start"}
               handleClick={
                 type === "recordings"
                   ? () => {

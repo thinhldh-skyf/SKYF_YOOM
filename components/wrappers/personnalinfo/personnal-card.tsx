@@ -69,7 +69,7 @@ export const PersonnalCard = ({
             variant="default"
             className="flex-1 capitalize bg-primary-400 hover:bg-white hover:text-black"
           >
-            Bắt đầu
+            Start
           </Button>
           <Button
             onClick={() => copy(meetingLink)}

@@ -8,9 +8,9 @@ export default authMiddleware({
       const email = user.emailAddresses[0]?.emailAddress;
 
       let role = "guest";
-      if (email === "hoangthinhza@gmail.com") {
+      if (email === "hoangtest.skyf@gmail.com") {
         role = "student";
-      } else if (email === "hoangthinhpro2001@gmail.com") {
+      } else if (email === "thinhtest.skyf@gmail.com") {
         role = "teacher";
       }
 

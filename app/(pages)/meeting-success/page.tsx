@@ -21,7 +21,7 @@ export default function MeetingSuccess() {
 
     const createAndRedirectMeeting = async () => {
       if (!client) {
-        toast.error("Lỗi kết nối Stream API");
+        toast.error("Stream API connection error");
         return;
       }
 
@@ -36,12 +36,12 @@ export default function MeetingSuccess() {
           },
         });
 
-        toast.success("Cuộc họp được tạo thành công!");
+        toast.success("Meeting created successfully!");
 
         router.push(`/meeting/upcoming`);
       } catch (error) {
-        console.error("Lỗi khi tạo cuộc họp", error);
-        toast.error("Tạo cuộc họp thất bại!");
+        console.error("Error creating meeting", error);
+        toast.error("Failed to create meeting!");
       }
     };
 
@@ -52,7 +52,7 @@ export default function MeetingSuccess() {
     <div className="fixed inset-0 flex justify-center items-center bg-dark-1 text-white">
       <div className="text-center">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white mx-auto mb-4"></div>
-        <p className="text-xl">Đang tạo cuộc họp, vui lòng chờ...</p>
+        <p className="text-xl">Creating meeting, please wait...</p>
       </div>
     </div>
   );

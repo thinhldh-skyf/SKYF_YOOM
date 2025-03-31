@@ -11,7 +11,7 @@ export async function POST(req: Request) {
     const data = await resend.emails.send({
       from: "SKYTutor <skyf@gmail.com>",
       to: [`${email}`],
-      subject: "Bạn được mời tham gia cuộc họp trên SKYTutor",
+      subject: "You are invited to join a meeting on SKYTutor.",
       react: EmailTemplate({ firstName: name }),
     });
 

@@ -62,21 +62,22 @@ export const HoverEffect = ({
     if (!client || !user) return;
     try {
       if (!values.dateTime) {
-        toast("Vui lòng chọn ngày và giờ");
+        toast("Please select date and time.");
         return;
       }
 
       if (meetingState === "isScheduleMeeting" && !values.description) {
-        toast("Vui lòng nhập tiêu đề cuộc họp");
+        toast("Please enter the meeting title.");
         return;
       }
 
       const id = crypto.randomUUID();
       const call = client.call("default", id);
-      if (!call) throw new Error("Lỗi khi tạo liên kết");
+      if (!call) throw new Error("Failed to create link.");
       const startsAt =
         values.dateTime.toISOString() || new Date(Date.now()).toISOString();
-      const description = values.description || "Cuộc họp cá nhân";
+      const description =
+        values.description || "Personal meetingPlease enter the meeting title.";
       await call.getOrCreate({
         data: {
           starts_at: startsAt,
@@ -93,7 +94,7 @@ export const HoverEffect = ({
       toast("Cuộc họp đã được tạo");
     } catch (error) {
       console.error(error);
-      toast("Cuộc họp thất bại");
+      toast("Meeting Failed.");
     }
   };
 
@@ -184,13 +185,13 @@ export const HoverEffect = ({
         }}
         title={titleMeeting}
         className="text-center"
-        buttonText="Bắt đầu"
+        buttonText="Start"
         handleClick={() => router.push(values.link)}
         loading={loading}
         setLoading={setLoading}
       >
         <Input
-          placeholder="Vui lòng dán liên kết vào đây"
+          placeholder="Please paste the link here."
           onChange={(e: any) => setValues({ ...values, link: e.target.value })}
           className="border-none text-center text-black text-xl bg-dark-3 focus-visible:ring-0 focus-visible:ring-offset-0"
         />
@@ -204,7 +205,7 @@ export const HoverEffect = ({
         }}
         title={titleMeeting}
         className="text-center"
-        buttonText="Bắt đầu"
+        buttonText="Start"
         handleClick={createMeeting}
         loading={loading}
         setLoading={setLoading}
@@ -217,12 +218,12 @@ export const HoverEffect = ({
             setMeetingState(undefined);
             setLoading(false);
           }}
-          title="Lên lịch cuộc họp"
+          title="Schedule meeting"
           handleClick={createMeeting}
           loading={loading}
           setLoading={setLoading}
           className="bg-dark-1"
-          buttonText="Lên lịch cuộc họp"
+          buttonText="Schedule meeting"
         >
           <div className="flex flex-col gap-2.5">
             <label className="text-base font-normal leading-[22.4px] text-sky-2">
@@ -239,7 +240,7 @@ export const HoverEffect = ({
           </div>
           <div className="flex w-full flex-col gap-2.5">
             <label className="text-base font-normal leading-[22.4px] text-sky-2">
-              Chọn ngày và giờ
+              Select date and time
             </label>
             <ReactDatePicker
               required
@@ -264,15 +265,15 @@ export const HoverEffect = ({
             setMeetingState(undefined);
             setLoading(false);
           }}
-          title="Cuộc họp đã được tạo"
+          title="Meeting created."
           loading={loading}
           setLoading={setLoading}
           handleClick={() => {
             navigator.clipboard.writeText(meetingLink);
-            toast("Đã sao chép liên kết");
+            toast("Link has been copied");
           }}
           className="text-center"
-          buttonText="Sao chép liên kết"
+          buttonText="Copy link"
         />
       )}
     </div>

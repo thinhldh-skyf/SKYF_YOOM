@@ -17,7 +17,7 @@ export const cards = [
   {
     color: "bg-primary-400",
     icon: "/icons/meeting.svg",
-    title: "Tham gia cuộc họp",
+    title: "Join meeting",
     description: "Qua đường link mời.",
     link: "https://stripe.com",
     option: "isJoiningMeeting",

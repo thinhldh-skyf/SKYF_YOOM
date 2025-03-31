@@ -1,29 +1,29 @@
 export const sidebar = [
   {
     url: "/icons/home.svg",
-    label: "Trang chủ",
+    label: "Home",
     route: "/home",
   },
   {
     url: "/icons/upcoming.svg",
-    label: "Sắp diễn ra",
+    label: "Appointment",
     route: "/meeting/upcoming",
   },
-  {
-    url: "/icons/previous.svg",
-    label: "Đã kết thúc",
-    route: "/meeting/previous",
-  },
-  {
-    url: "/icons/recordings.svg",
-    label: "Đã ghi hình",
-    route: "/meeting/recordings",
-  },
-  {
-    url: "/icons/personalroom.svg",
-    label: "Phòng cá nhân",
-    route: "/personalroom",
-  },
+  // {
+  //   url: "/icons/previous.svg",
+  //   label: "Đã kết thúc",
+  //   route: "/meeting/previous",
+  // },
+  // {
+  //   url: "/icons/recordings.svg",
+  //   label: "Đã ghi hình",
+  //   route: "/meeting/recordings",
+  // },
+  // {
+  //   url: "/icons/personalroom.svg",
+  //   label: "Phòng cá nhân",
+  //   route: "/personalroom",
+  // },
 ];
 
 // export const avatarImages = [

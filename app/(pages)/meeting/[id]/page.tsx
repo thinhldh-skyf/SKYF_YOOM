@@ -14,14 +14,14 @@ export default function Page({ params }: { params: { id: string } }) {
 }
 
 export const metadata: Metadata = {
-  title: "SKYTutor - Thiết lập cuộc họp",
-  description: "SKYTutor - Thiết lập cuộc họp",
+  title: "SKYTutor - Set up a meeting",
+  description: "SKYTutor - Set up a meeting",
   icons: {
     icon: "/logo/logo.svg",
   },
 
   openGraph: mergeOpenGraph({
-    title: "SKYTutor - Thiết lập cuộc họp",
+    title: "SKYTutor - Set up a meeting",
     url: "/",
   }),
 };

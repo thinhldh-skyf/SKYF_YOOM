@@ -8,7 +8,7 @@ export default function Page() {
   return (
     <section className="pt-24 bg-dark-1 flex-1 text-white min-h-screen">
       <Container>
-        <Heading title="Phòng họp cá nhân của tôi" />
+        <Heading title="My personal meeting room." />
         <Personnal />
       </Container>
     </section>
@@ -16,14 +16,14 @@ export default function Page() {
 }
 
 export const metadata: Metadata = {
-  title: "SKYTutor - Phòng cá nhân",
-  description: "Ứng dụng gọi video",
+  title: "SKYTutor - Personal room.",
+  description: "Video call application",
   icons: {
     icon: "/logo/logo.png",
   },
 
   openGraph: mergeOpenGraph({
-    title: "SKYTutor - Phòng cá nhân",
+    title: "SKYTutor - Personal room.",
     url: "/personalroom",
   }),
 };

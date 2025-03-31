@@ -1,5 +1,6 @@
 "use client";
-import { useState } from "react";
+
+import { useState, useEffect } from "react";
 import {
   CallControls,
   CallParticipantsList,
@@ -8,9 +9,10 @@ import {
   PaginatedGridLayout,
   SpeakerLayout,
   useCallStateHooks,
+  useCall,
 } from "@stream-io/video-react-sdk";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
-import { Users, LayoutList, Share } from "lucide-react";
+import { Users, LayoutList } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -39,13 +41,32 @@ export const MeetingRoom = () => {
   const router = useRouter();
   const [layout, setLayout] = useState<CallLayoutType>("speaker-left");
   const [showParticipants, setShowParticipants] = useState(false);
-  const { useCallCallingState } = useCallStateHooks();
-
   const [meetingState, setMeetingState] = useState<"shareLink" | undefined>(
     undefined
   );
   const [values, setValues] = useState(initialValues);
+
+  const { useCallCallingState } = useCallStateHooks();
   const callingState = useCallCallingState();
+  const call = useCall();
+
+  const [timeLeft, setTimeLeft] = useState(50 * 60);
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (callingState === CallingState.JOINED && timeLeft > 0) {
+      timer = setInterval(() => {
+        setTimeLeft((prev) => prev - 1);
+      }, 1000);
+    }
+
+    if (timeLeft === 0) {
+      call?.endCall();
+      router.push("/home");
+    }
+
+    return () => clearInterval(timer);
+  }, [callingState, timeLeft, call, router]);
 
   if (callingState !== CallingState.JOINED) return <Loader />;
 
@@ -66,27 +87,33 @@ export const MeetingRoom = () => {
 
   return (
     <section className="relative w-full overflow-hidden text-white">
+      <div className="absolute top-4 right-4 bg-black/50 px-4 py-2 rounded-xl text-white text-lg font-bold z-50">
+        {Math.floor(timeLeft / 60)
+          .toString()
+          .padStart(2, "0")}
+        :{(timeLeft % 60).toString().padStart(2, "0")}
+      </div>
+
       <div className="relative flex size-full items-center justify-center">
         <div className=" flex size-full max-w-[1000px] items-center">
           <CallLayout />
         </div>
         <div
           className={cn(
-            "shadow-lg bg-dark-2 px-8 pt-20 transition-all w-[320px] fixed transition-all right-0 top-0 min-h-screen",
+            "shadow-lg bg-dark-2 px-8 pt-20 transition-all w-[320px] fixed right-0 top-0 min-h-screen",
             showParticipants ? "block" : "hidden"
           )}
         >
           <CallParticipantsList onClose={() => setShowParticipants(false)} />
         </div>
       </div>
-      {/* video layout and call controls */}
-      <div className="flex w-full flex-wrap items-center gap-5 justify-center pt-20">
-        <CallControls onLeave={() => router.push(`/home`)} />
 
+      <div className="flex w-full flex-wrap items-center gap-5 justify-center pt-20">
+        <CallControls onLeave={() => router.push("/home")} />
         <div className="flex gap-4">
           <DropdownMenu>
             <div className="flex items-center">
-              <DropdownMenuTrigger className="cursor-pointer rounded-2xl bg-[#19232d] px-4 py-2 hover:bg-[#4c535b]  ">
+              <DropdownMenuTrigger className="cursor-pointer rounded-2xl bg-[#19232d] px-4 py-2 hover:bg-[#4c535b]">
                 <LayoutList size={20} className="text-white" />
               </DropdownMenuTrigger>
             </div>
@@ -105,20 +132,18 @@ export const MeetingRoom = () => {
               ))}
             </DropdownMenuContent>
           </DropdownMenu>
+
           <CallStatsButton />
+
           <button
             title="Người tham gia"
             onClick={() => setShowParticipants((prev) => !prev)}
           >
-            <div className=" cursor-pointer rounded-2xl bg-[#19232d] px-4 py-2 hover:bg-[#4c535b]  ">
+            <div className="cursor-pointer rounded-2xl bg-[#19232d] px-4 py-2 hover:bg-[#4c535b]">
               <Users size={20} className="text-white" />
             </div>
           </button>
-          {/* <button title='Partager' onClick={() => setMeetingState('shareLink')}>
-            <div className=" cursor-pointer rounded-2xl bg-[#19232d] px-4 py-2 hover:bg-[#4c535b]  ">
-              <Share size={20} className="text-white" />
-            </div>
-          </button> */}
+
           {!isPersonalRoom && <EndCallButton />}
         </div>
       </div>

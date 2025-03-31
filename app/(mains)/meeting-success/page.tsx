@@ -38,7 +38,7 @@ export default function MeetingSuccess() {
         });
 
         // ✅ Gọi API để lưu vào database
-        await fetch("/api/createmeeting", {
+        await fetch("/api/create-meeting", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({

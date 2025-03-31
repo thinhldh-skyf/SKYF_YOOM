@@ -6,7 +6,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 });
 
 export async function POST(req: NextRequest) {
-  const { tutorId, price, time, description } = await req.json();
+  const { tutorId, price, time, description, email } = await req.json();
 
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
       process.env.NEXT_PUBLIC_BASE_URL
     }/meeting-success?description=${encodeURIComponent(
       description
-    )}&time=${time}`,
+    )}&time=${time}&email=${email}`,
     cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/payment?status=cancel`,
   });
 

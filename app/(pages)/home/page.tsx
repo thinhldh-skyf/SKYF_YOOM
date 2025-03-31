@@ -180,6 +180,7 @@ export default function Page() {
         tutorId: selectedTutor.id,
         time: selectedDate.toISOString(),
         description: `${user?.fullName}'s meeting with tutor ${selectedTutor.name}`,
+        email: selectedTutor.email,
         price: selectedTutor.price,
       });
 

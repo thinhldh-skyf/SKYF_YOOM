@@ -35,7 +35,6 @@ export const MeetingRoom = () => {
     name: "hoangrey",
   };
 
-  const pathname = usePathname();
   const searchParams = useSearchParams();
   const isPersonalRoom = !!searchParams.get("personal");
   const router = useRouter();
@@ -46,27 +45,69 @@ export const MeetingRoom = () => {
   );
   const [values, setValues] = useState(initialValues);
 
-  const { useCallCallingState } = useCallStateHooks();
+  const { useCallCallingState, useLocalParticipant } = useCallStateHooks();
   const callingState = useCallCallingState();
+  const localParticipant = useLocalParticipant();
   const call = useCall();
 
-  const [timeLeft, setTimeLeft] = useState(50 * 60);
+  const isHost =
+    localParticipant &&
+    call?.state.createdBy &&
+    localParticipant.userId === call.state.createdBy.id;
 
+  const [timeLeft, setTimeLeft] = useState<number | null>(null);
+
+  // Set startedAt nếu là host và chưa có
   useEffect(() => {
-    let timer: NodeJS.Timeout;
-    if (callingState === CallingState.JOINED && timeLeft > 0) {
-      timer = setInterval(() => {
-        setTimeLeft((prev) => prev - 1);
-      }, 1000);
-    }
+    const maybeSetStartedAt = async () => {
+      if (callingState === CallingState.JOINED && call) {
+        const startedAt = call.state.custom?.startedAt;
+        if (!startedAt && isHost) {
+          await call.update({
+            custom: {
+              ...call.state.custom,
+              startedAt: new Date().toISOString(),
+            },
+          });
+        }
+      }
+    };
 
-    if (timeLeft === 0) {
-      call?.endCall();
-      router.push("/home");
-    }
+    maybeSetStartedAt();
+  }, [callingState, call, isHost]);
 
+  // Lấy startedAt và tính timeLeft
+  useEffect(() => {
+    if (
+      callingState === CallingState.JOINED &&
+      call?.state?.custom?.startedAt
+    ) {
+      const startedAt = new Date(call.state.custom.startedAt);
+      const now = new Date();
+      const elapsed = Math.floor((now.getTime() - startedAt.getTime()) / 1000); // giây
+      const remaining = Math.max(50 * 60 - elapsed, 0);
+      setTimeLeft(remaining);
+    }
+  }, [callingState, call]);
+
+  // Đếm ngược
+  useEffect(() => {
+    if (timeLeft === null) return;
+
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev === null) return null;
+        if (prev <= 1) {
+          call?.endCall();
+          router.push("/home");
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+    
     return () => clearInterval(timer);
-  }, [callingState, timeLeft, call, router]);
+  }, [timeLeft]);
 
   if (callingState !== CallingState.JOINED) return <Loader />;
 
@@ -87,11 +128,13 @@ export const MeetingRoom = () => {
 
   return (
     <section className="relative w-full overflow-hidden text-white">
+      {/* Countdown Timer */}
       <div className="absolute top-4 right-4 bg-black/50 px-4 py-2 rounded-xl text-white text-lg font-bold z-50">
-        {Math.floor(timeLeft / 60)
-          .toString()
-          .padStart(2, "0")}
-        :{(timeLeft % 60).toString().padStart(2, "0")}
+        {timeLeft !== null
+          ? `${String(Math.floor(timeLeft / 60)).padStart(2, "0")}:${String(
+              timeLeft % 60
+            ).padStart(2, "0")}`
+          : "Đang đồng bộ..."}
       </div>
 
       <div className="relative flex size-full items-center justify-center">
@@ -151,9 +194,7 @@ export const MeetingRoom = () => {
       <ModalMeeting
         title="Share Link"
         isOpen={meetingState === "shareLink"}
-        onClose={() => {
-          setMeetingState(undefined);
-        }}
+        onClose={() => setMeetingState(undefined)}
         className="text-center"
         buttonText="Share"
         handleClick={handleClick}

@@ -4,45 +4,70 @@ import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { useGetCalls } from "@/hooks/useGetCalls";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ClipboardCopyIcon, X } from "lucide-react";
 import * as Dialog from "@radix-ui/react-dialog";
 import toast from "react-hot-toast";
+import { useUser } from "@clerk/nextjs";
 
 export default function MeetingCalendar() {
   const { upcomingCalls, isLoading } = useGetCalls();
   const [selectedMeeting, setSelectedMeeting] = useState<any>(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [meetings, setMeetings] = useState<any[]>([]);
+
+  const { user } = useUser();
+  const currentEmail = user?.emailAddresses?.[0]?.emailAddress;
+
+  const fetchMeetings = async () => {
+    try {
+      const res = await fetch("/api/my-meeting");
+      const data = await res.json();
+      setMeetings(data);
+    } catch (error) {
+      console.error("Failed to fetch meetings", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchMeetings();
+    const interval = setInterval(fetchMeetings, 5000);
+    return () => clearInterval(interval);
+  }, []);
 
   const events = useMemo(() => {
-    if (!upcomingCalls) return [];
+    return meetings.map((meeting) => {
+      const start = new Date(meeting.startsAt);
+      const end = new Date(start.getTime() + 50 * 60 * 1000);
 
-    return upcomingCalls.map((call) => {
-      const start = new Date(call.state?.startsAt ?? new Date());
-      const end = new Date(start.getTime() + 50 * 60 * 1000); // +50 phút
+      let backgroundColor = "#3b82f6"; // default: student = blue
+
+      if (currentEmail === "admin@skytutor.com") {
+        backgroundColor = "#9333ea"; // admin = purple
+      } else if (currentEmail === meeting.tutorEmail) {
+        backgroundColor = "#22c55e"; // tutor = green
+      }
 
       return {
-        id: call.id,
-        title: call.state?.custom?.description || "Cuộc họp cá nhân",
+        id: meeting.callId,
+        title: meeting.description || "Cuộc họp cá nhân",
         start,
         end,
+        backgroundColor,
+        borderColor: backgroundColor,
         extendedProps: {
-          participants: call.state?.members || {},
-          url: `${process.env.NEXT_PUBLIC_BASE_URL}/meeting/${call.id}`,
+          participants: [meeting.studentEmail, meeting.tutorEmail],
+          url: `${process.env.NEXT_PUBLIC_BASE_URL}/meeting/${meeting.callId}`,
         },
       };
     });
-  }, [upcomingCalls]);
+  }, [meetings, currentEmail]);
 
   const handleEventClick = (info: any) => {
     info.jsEvent.preventDefault();
     setSelectedMeeting(info.event);
     setIsOpen(true);
-  };
-
-  const copyLink = () => {
-    navigator.clipboard.writeText(selectedMeeting.extendedProps.url);
   };
 
   if (isLoading) return <p className="text-white text-center">Loading...</p>;

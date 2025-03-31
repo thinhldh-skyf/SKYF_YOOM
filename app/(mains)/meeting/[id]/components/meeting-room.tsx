@@ -55,21 +55,39 @@ export const MeetingRoom = () => {
     call?.state.createdBy &&
     localParticipant.userId === call.state.createdBy.id;
 
-  const [timeLeft, setTimeLeft] = useState<number | null>(null);
+  const [timeLeft, setTimeLeft] = useState<number | null>(50 * 60);
 
   // Set startedAt nếu là host và chưa có
   useEffect(() => {
     const maybeSetStartedAt = async () => {
       if (callingState === CallingState.JOINED && call) {
         const startedAt = call.state.custom?.startedAt;
+
         if (!startedAt && isHost) {
+          const now = new Date().toISOString();
+
           await call.update({
             custom: {
               ...call.state.custom,
-              startedAt: new Date().toISOString(),
+              startedAt: now,
             },
           });
+
+          const elapsed = 0;
+          const remaining = 50 * 60 - elapsed;
+          setTimeLeft(remaining);
+          return;
         }
+      }
+
+      if (call?.state?.custom?.startedAt) {
+        const startedAt = new Date(call.state.custom.startedAt);
+        const now = new Date();
+        const elapsed = Math.floor(
+          (now.getTime() - startedAt.getTime()) / 1000
+        );
+        const remaining = Math.max(50 * 60 - elapsed, 0);
+        setTimeLeft(remaining);
       }
     };
 
@@ -105,9 +123,9 @@ export const MeetingRoom = () => {
         return prev - 1;
       });
     }, 1000);
-    
+
     return () => clearInterval(timer);
-  }, [timeLeft]);
+  }, [timeLeft, call, router]);
 
   if (callingState !== CallingState.JOINED) return <Loader />;
 

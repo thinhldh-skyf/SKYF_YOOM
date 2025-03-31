@@ -54,7 +54,7 @@ export default function MeetingCalendar() {
         initialView="timeGridWeek"
         events={events}
         slotMinTime="06:00:00"
-        slotMaxTime="23:00:00"
+        slotMaxTime="24:00:00"
         allDaySlot={false}
         editable={false}
         selectable={false}

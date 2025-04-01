@@ -11,7 +11,7 @@ import {
   useCallStateHooks,
   useCall,
 } from "@stream-io/video-react-sdk";
-import { useRouter, useSearchParams, usePathname } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Users, LayoutList } from "lucide-react";
 import {
   DropdownMenu,
@@ -29,6 +29,29 @@ import sendEmail from "@/actions/sendemail";
 
 type CallLayoutType = "grid" | "speaker-left" | "speaker-right";
 
+const CountdownTimer = ({ timeLeft }: { timeLeft: number | null }) => {
+  return (
+    <div className="absolute top-4 right-4 bg-black/50 px-4 py-2 rounded-xl text-white text-lg font-bold z-50">
+      {timeLeft !== null
+        ? `${String(Math.floor(timeLeft / 60)).padStart(2, "0")}:${String(
+            timeLeft % 60
+          ).padStart(2, "0")}`
+        : "Đang đồng bộ..."}
+    </div>
+  );
+};
+
+const CallLayoutComponent = ({ layout }: { layout: CallLayoutType }) => {
+  switch (layout) {
+    case "grid":
+      return <PaginatedGridLayout />;
+    case "speaker-right":
+      return <SpeakerLayout participantsBarPosition="left" />;
+    default:
+      return <SpeakerLayout participantsBarPosition="right" />;
+  }
+};
+
 export const MeetingRoom = () => {
   const initialValues = {
     email: "hoangrey272284@gmail.com",
@@ -44,6 +67,7 @@ export const MeetingRoom = () => {
     undefined
   );
   const [values, setValues] = useState(initialValues);
+  const [timeLeft, setTimeLeft] = useState<number | null>(50 * 60);
 
   const { useCallCallingState, useLocalParticipant } = useCallStateHooks();
   const callingState = useCallCallingState();
@@ -55,9 +79,14 @@ export const MeetingRoom = () => {
     call?.state.createdBy &&
     localParticipant.userId === call.state.createdBy.id;
 
-  const [timeLeft, setTimeLeft] = useState<number | null>(50 * 60);
+  // Bật camera khi vào
+  useEffect(() => {
+    if (callingState === CallingState.JOINED && call) {
+      call.camera.enable();
+    }
+  }, [callingState, call]);
 
-  // Set startedAt nếu là host và chưa có
+  // Set startedAt nếu là host
   useEffect(() => {
     const maybeSetStartedAt = async () => {
       if (callingState === CallingState.JOINED && call) {
@@ -65,50 +94,28 @@ export const MeetingRoom = () => {
 
         if (!startedAt && isHost) {
           const now = new Date().toISOString();
-
           await call.update({
-            custom: {
-              ...call.state.custom,
-              startedAt: now,
-            },
+            custom: { ...call.state.custom, startedAt: now },
           });
-
-          const elapsed = 0;
-          const remaining = 50 * 60 - elapsed;
-          setTimeLeft(remaining);
+          setTimeLeft(50 * 60);
           return;
         }
-      }
 
-      if (call?.state?.custom?.startedAt) {
-        const startedAt = new Date(call.state.custom.startedAt);
-        const now = new Date();
-        const elapsed = Math.floor(
-          (now.getTime() - startedAt.getTime()) / 1000
-        );
-        const remaining = Math.max(50 * 60 - elapsed, 0);
-        setTimeLeft(remaining);
+        if (startedAt) {
+          const started = new Date(startedAt);
+          const now = new Date();
+          const elapsed = Math.floor(
+            (now.getTime() - started.getTime()) / 1000
+          );
+          setTimeLeft(Math.max(50 * 60 - elapsed, 0));
+        }
       }
     };
 
     maybeSetStartedAt();
   }, [callingState, call, isHost]);
 
-  // Lấy startedAt và tính timeLeft
-  useEffect(() => {
-    if (
-      callingState === CallingState.JOINED &&
-      call?.state?.custom?.startedAt
-    ) {
-      const startedAt = new Date(call.state.custom.startedAt);
-      const now = new Date();
-      const elapsed = Math.floor((now.getTime() - startedAt.getTime()) / 1000); // giây
-      const remaining = Math.max(50 * 60 - elapsed, 0);
-      setTimeLeft(remaining);
-    }
-  }, [callingState, call]);
-
-  // Đếm ngược
+  // Đếm ngược thời gian còn lại
   useEffect(() => {
     if (timeLeft === null) return;
 
@@ -129,35 +136,17 @@ export const MeetingRoom = () => {
 
   if (callingState !== CallingState.JOINED) return <Loader />;
 
-  const CallLayout = () => {
-    switch (layout) {
-      case "grid":
-        return <PaginatedGridLayout />;
-      case "speaker-right":
-        return <SpeakerLayout participantsBarPosition="left" />;
-      default:
-        return <SpeakerLayout participantsBarPosition="right" />;
-    }
-  };
-
   const handleClick = async () => {
     await sendEmail(values);
   };
 
   return (
     <section className="relative w-full overflow-hidden text-white">
-      {/* Countdown Timer */}
-      <div className="absolute top-4 right-4 bg-black/50 px-4 py-2 rounded-xl text-white text-lg font-bold z-50">
-        {timeLeft !== null
-          ? `${String(Math.floor(timeLeft / 60)).padStart(2, "0")}:${String(
-              timeLeft % 60
-            ).padStart(2, "0")}`
-          : "Đang đồng bộ..."}
-      </div>
+      <CountdownTimer timeLeft={timeLeft} />
 
       <div className="relative flex size-full items-center justify-center">
-        <div className=" flex size-full max-w-[1000px] items-center">
-          <CallLayout />
+        <div className="flex size-full max-w-[1000px] items-center">
+          <CallLayoutComponent layout={layout} />
         </div>
         <div
           className={cn(
@@ -220,13 +209,13 @@ export const MeetingRoom = () => {
         <Input
           required
           placeholder="Please enter the recipient's email address."
-          onChange={(e: any) => setValues({ ...values, email: e.target.value })}
+          onChange={(e) => setValues({ ...values, email: e.target.value })}
           className="border-none text-center text-black text-xl bg-dark-3 focus-visible:ring-0 focus-visible:ring-offset-0"
         />
         <Input
           required
           placeholder="Please enter the recipient's name."
-          onChange={(e: any) => setValues({ ...values, name: e.target.value })}
+          onChange={(e) => setValues({ ...values, name: e.target.value })}
           className="border-none text-center text-black text-xl bg-dark-3 focus-visible:ring-0 focus-visible:ring-offset-0"
         />
       </ModalMeeting>

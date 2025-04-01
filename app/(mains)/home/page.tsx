@@ -21,7 +21,7 @@ const tutors = [
     avatar: "https://avatars.preply.com/i/logos/i/logos/avatar_22ws8cubbit.jpg",
     category: ["Vietnamese", "English", "Chinese"],
     weekday: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-    email: "thinhtest.skyf@gmail.com",
+    email: "teacher@skytutor.com",
     name: "Nghiem E.",
     language: "Vietnamese (Native), English (Fluent)",
     students: "15",
@@ -44,7 +44,7 @@ const tutors = [
     avatar: "https://avatars.preply.com/i/logos/i/logos/avatar_wftmsr3e7r.jpg",
     category: ["Vietnamese", "Japanese", "Korean"],
     weekday: ["Monday", "Thursday", "Friday"],
-    email: "thinhtest.skyf@gmail.com",
+    email: "teacher@skytutor.com",
     name: "Trinh T.",
     students: "60",
     rating: 4.8,
@@ -66,7 +66,7 @@ const tutors = [
     avatar: "https://avatars.preply.com/i/logos/i/logos/avatar_4ijidxpd3uh.jpg",
     category: ["Vietnamese", "France", "Chinese", "English"],
     weekday: ["Tuesday", "Thursday", "Friday"],
-    email: "thinhtest.skyf@gmail.com",
+    email: "teacher@skytutor.com",
     name: "Hieu Hanh N.",
     students: "15",
     rating: 5,
@@ -88,7 +88,7 @@ const tutors = [
     avatar: "https://avatars.preply.com/i/logos/i/logos/avatar_viambjs5aoa.jpg",
     category: ["Vietnamese", "Korean", "English"],
     weekday: ["Monday", "Wednesday", "Friday"],
-    email: "thinhtest.skyf@gmail.com",
+    email: "teacher@skytutor.com",
     name: "Thuong L.",
     students: "15",
     rating: 4.6,
@@ -110,7 +110,7 @@ const tutors = [
     avatar: "https://avatars.preply.com/i/logos/i/logos/avatar_22j0rgn6yl3.jpg",
     category: ["Japanese", "France", "English"],
     weekday: ["Monday", "Tuesday", "Wednesday", "Thursday"],
-    email: "thinhtest.skyf@gmail.com",
+    email: "teacher@skytutor.com",
     name: "Nga E.",
     students: "15",
     rating: 5,
@@ -142,7 +142,7 @@ export default function Page() {
   const [values, setValues] = useState(initialValues);
 
   const { user } = useUser();
-
+  console.log(user);
   const [selectedTutor, setSelectedTutor] = useState<any>(null);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [isLoading, setIsLoading] = useState(false);
@@ -179,7 +179,7 @@ export default function Page() {
       const { data } = await axios.post("/api/checkout", {
         tutorId: selectedTutor.id,
         time: selectedDate.toISOString(),
-        description: `${user?.fullName}'s meeting with tutor ${selectedTutor.name}`,
+        description: `${user?.username}'s meeting with tutor ${selectedTutor.name}`,
         email: selectedTutor.email,
         price: selectedTutor.price,
       });

@@ -138,7 +138,7 @@ export const MeetingRoom = () => {
       <CountdownTimer timeLeft={timeLeft} />
 
       <div className="relative flex size-full items-center justify-center">
-        <div className="flex size-full max-w-[1000px] items-center">
+        <div className="flex size-full max-w-[700px] items-center">
           <CallLayoutComponent layout={layout} />
         </div>
         <div
@@ -160,7 +160,7 @@ export const MeetingRoom = () => {
                 <LayoutList size={20} className="text-white" />
               </DropdownMenuTrigger>
             </div>
-            <DropdownMenuContent className="border-dark-1 bg-dark-1 text-white0">
+            <DropdownMenuContent className="border-dark-1 bg-dark-2 text-white rounded-sm">
               {["Speaker-Left", "Speaker-Right"].map((item, index) => (
                 <div key={index}>
                   <DropdownMenuItem
@@ -179,7 +179,7 @@ export const MeetingRoom = () => {
           <CallStatsButton />
 
           <button
-            title="Người tham gia"
+            title="Participants"
             onClick={() => setShowParticipants((prev) => !prev)}
           >
             <div className="cursor-pointer rounded-2xl bg-[#19232d] px-4 py-2 hover:bg-[#4c535b]">

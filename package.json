@@ -11,7 +11,9 @@
   "dependencies": {
     "@clerk/nextjs": "^4.29.11",
     "@clerk/themes": "^1.7.11",
+    "@fullcalendar/core": "^6.1.15",
     "@fullcalendar/interaction": "^6.1.15",
+    "@fullcalendar/list": "^6.1.15",
     "@fullcalendar/react": "^6.1.15",
     "@fullcalendar/timegrid": "^6.1.15",
     "@prisma/client": "^6.5.0",

@@ -13,12 +13,11 @@ export const HomeCard = () => {
         effectiveness with the best tutors, wherever you are.
       </p> */}
       <Image
-        src="/images/image.png"
+        src="/images/image.webp"
         alt="Tutor 1:1"
         width={1280}
-        height={1280}
-        layout="responsive"
-        className="object-cover rounded-lg shadow-xl w-full h-[350px]"
+        height={200}
+        className="rounded-lg object-cover shadow-md"
       />
     </div>
   );

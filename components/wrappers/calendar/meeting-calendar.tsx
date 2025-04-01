@@ -1,22 +1,21 @@
 "use client";
 
 import FullCalendar from "@fullcalendar/react";
+import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
+import listPlugin from "@fullcalendar/list";
 import interactionPlugin from "@fullcalendar/interaction";
-import { useGetCalls } from "@/hooks/useGetCalls";
 import { useEffect, useMemo, useState } from "react";
+import { useUser } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import { ClipboardCopyIcon, X } from "lucide-react";
-import * as Dialog from "@radix-ui/react-dialog";
 import toast from "react-hot-toast";
-import { useUser } from "@clerk/nextjs";
+import * as Dialog from "@radix-ui/react-dialog";
 
 export default function MeetingCalendar() {
-  const { upcomingCalls, isLoading } = useGetCalls();
+  const [meetings, setMeetings] = useState<any[]>([]);
   const [selectedMeeting, setSelectedMeeting] = useState<any>(null);
   const [isOpen, setIsOpen] = useState(false);
-  const [meetings, setMeetings] = useState<any[]>([]);
-
   const { user } = useUser();
   const currentEmail = user?.emailAddresses?.[0]?.emailAddress;
 
@@ -41,13 +40,9 @@ export default function MeetingCalendar() {
       const start = new Date(meeting.startsAt);
       const end = new Date(start.getTime() + 50 * 60 * 1000);
 
-      let backgroundColor = "#3b82f6"; // default: student = blue
-
-      if (currentEmail === "admin@skytutor.com") {
-        backgroundColor = "#9333ea"; // admin = purple
-      } else if (currentEmail === meeting.tutorEmail) {
-        backgroundColor = "#22c55e"; // tutor = green
-      }
+      let backgroundColor = "#3b82f6";
+      if (currentEmail === "admin@skytutor.com") backgroundColor = "#9333ea";
+      else if (currentEmail === meeting.tutorEmail) backgroundColor = "#22c55e";
 
       return {
         id: meeting.callId,
@@ -57,7 +52,6 @@ export default function MeetingCalendar() {
         backgroundColor,
         borderColor: backgroundColor,
         extendedProps: {
-          participants: [meeting.studentEmail, meeting.tutorEmail],
           url: `${process.env.NEXT_PUBLIC_BASE_URL}/meeting/${meeting.callId}`,
         },
       };
@@ -70,32 +64,40 @@ export default function MeetingCalendar() {
     setIsOpen(true);
   };
 
-  if (isLoading) return <p className="text-white text-center">Loading...</p>;
-
   return (
-    <div className="p-4 h-[80vh] bg-dark-1 text-white rounded-xl relative">
-      <FullCalendar
-        plugins={[timeGridPlugin, interactionPlugin]}
-        initialView="timeGridWeek"
-        events={events}
-        slotMinTime="06:00:00"
-        slotMaxTime="24:00:00"
-        allDaySlot={false}
-        editable={false}
-        selectable={false}
-        headerToolbar={{
-          left: "prev,next today",
-          center: "title",
-          right: "",
-        }}
-        eventClick={handleEventClick}
-        slotLabelFormat={{
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: false,
-        }}
-        height="100%"
-      />
+    <div className="p-6 bg-white text-black rounded-xl shadow-lg dark:bg-dark-1 dark:text-white">
+      <div className="relative">
+        <div className="relative">
+          <FullCalendar
+            plugins={[
+              dayGridPlugin,
+              timeGridPlugin,
+              listPlugin,
+              interactionPlugin,
+            ]}
+            initialView="timeGridWeek"
+            headerToolbar={{
+              left: "prev,next today",
+              center: "title",
+              right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek",
+            }}
+            events={events}
+            eventClick={handleEventClick}
+            slotMinTime="01:00:00"
+            slotMaxTime="24:00:00"
+            scrollTime="08:00:00"
+            nowIndicator={true}
+            height={600}
+            stickyHeaderDates={true}
+            dayHeaderClassNames="bg-white dark:bg-dark-1"
+            dayHeaderContent={(args) => (
+              <span className="text-black dark:text-white font-semibold">
+                {args.text}
+              </span>
+            )}
+          />
+        </div>
+      </div>
 
       <Dialog.Root open={isOpen} onOpenChange={setIsOpen}>
         <Dialog.Portal>
@@ -114,17 +116,17 @@ export default function MeetingCalendar() {
 
             <p>
               🕒 <strong>Start:</strong>{" "}
-              {selectedMeeting?.start.toLocaleString()}
+              {selectedMeeting?.start?.toLocaleString()}
             </p>
             <p>
-              🕓 <strong>End:</strong> {selectedMeeting?.end.toLocaleString()}
+              🕓 <strong>End:</strong> {selectedMeeting?.end?.toLocaleString()}
             </p>
 
             <div className="mt-6 flex justify-between gap-4">
               <Button
                 className="bg-blue-600 text-white"
                 onClick={() =>
-                  window.open(selectedMeeting.extendedProps.url, "_blank")
+                  window.open(selectedMeeting?.extendedProps?.url, "_blank")
                 }
               >
                 Start Meeting
@@ -134,7 +136,7 @@ export default function MeetingCalendar() {
                 className="flex items-center gap-2"
                 onClick={() => {
                   navigator.clipboard.writeText(
-                    selectedMeeting.extendedProps.url
+                    selectedMeeting?.extendedProps?.url
                   );
                   toast.success("Link copied to clipboard!");
                 }}

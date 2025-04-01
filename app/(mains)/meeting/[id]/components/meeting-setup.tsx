@@ -55,8 +55,9 @@ export const MeetingSetup = ({
             checked={isMicCamToggled}
             onCheckedChange={() => setIsMicCamToggled(!isMicCamToggled)}
             id="terms"
+            className="w-5 h-5 rounded-full border-[2px] border-gray-300 data-[state=checked]:bg-emerald-600 data-[state=checked]:border-emerald-600 flex items-center justify-center transition"
           />
-          <Label htmlFor="terms" className="text-xl cursor-pointer">
+          <Label htmlFor="terms" className="text-xl cursor-pointer text-white">
             Turn off camera and micro
           </Label>
           <div className="w-10 h-10">

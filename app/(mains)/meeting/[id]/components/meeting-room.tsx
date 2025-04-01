@@ -27,11 +27,11 @@ import ModalMeeting from "@/components/ui/modal-meeting";
 import { Input } from "@/components/ui/input";
 import sendEmail from "@/actions/sendemail";
 
-type CallLayoutType = "grid" | "speaker-left" | "speaker-right";
+type CallLayoutType = "speaker-left" | "speaker-right";
 
 const CountdownTimer = ({ timeLeft }: { timeLeft: number | null }) => {
   return (
-    <div className="absolute top-4 right-4 bg-black/50 px-4 py-2 rounded-xl text-white text-lg font-bold z-50">
+    <div className="absolute top-4 right-2 bg-black/50 px-4 py-2 rounded-xl text-white text-sm font-bold z-50">
       {timeLeft !== null
         ? `${String(Math.floor(timeLeft / 60)).padStart(2, "0")}:${String(
             timeLeft % 60
@@ -43,8 +43,8 @@ const CountdownTimer = ({ timeLeft }: { timeLeft: number | null }) => {
 
 const CallLayoutComponent = ({ layout }: { layout: CallLayoutType }) => {
   switch (layout) {
-    case "grid":
-      return <PaginatedGridLayout />;
+    // case "grid":
+    //   return <PaginatedGridLayout />;
     case "speaker-right":
       return <SpeakerLayout participantsBarPosition="left" />;
     default:
@@ -78,13 +78,6 @@ export const MeetingRoom = () => {
     localParticipant &&
     call?.state.createdBy &&
     localParticipant.userId === call.state.createdBy.id;
-
-  // Bật camera khi vào
-  useEffect(() => {
-    if (callingState === CallingState.JOINED && call) {
-      call.camera.enable();
-    }
-  }, [callingState, call]);
 
   // Set startedAt nếu là host
   useEffect(() => {
@@ -167,8 +160,8 @@ export const MeetingRoom = () => {
                 <LayoutList size={20} className="text-white" />
               </DropdownMenuTrigger>
             </div>
-            <DropdownMenuContent className="border-dark-1 bg-dark-1 text-white">
-              {["Grid", "Speaker-Left", "Speaker-Right"].map((item, index) => (
+            <DropdownMenuContent className="border-dark-1 bg-dark-1 text-white0">
+              {["Speaker-Left", "Speaker-Right"].map((item, index) => (
                 <div key={index}>
                   <DropdownMenuItem
                     onClick={() =>

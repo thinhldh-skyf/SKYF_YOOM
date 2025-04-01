@@ -91,7 +91,7 @@ export const HoverEffect = ({
       if (!values.description) {
         router.push(`/meeting/${call.id}`);
       }
-      toast("Cuộc họp đã được tạo");
+      toast("Meeting Created.");
     } catch (error) {
       console.error(error);
       toast("Meeting Failed.");

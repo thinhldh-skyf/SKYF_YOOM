@@ -13,9 +13,9 @@ export default authMiddleware({
       const email = user.emailAddresses[0]?.emailAddress;
 
       let role = "guest";
-      if (email === "hoangtest.skyf@gmail.com") {
+      if (email === "student@skytutor.com") {
         role = "student";
-      } else if (email === "thinhtest.skyf@gmail.com") {
+      } else if (email === "teacher@skytutor.com") {
         role = "teacher";
       }
 

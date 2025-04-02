@@ -43,8 +43,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "SKYTutor Application",
-    description:
-      "SKYFTutor: Today’s most popular platform for booking teachers",
+    description: "SKYFTutor: Today’s most popular platform for booking mentors",
     siteId: "",
     creator: "SKYF",
     images: [`https://skyf.vercel.app/logo/logo.png`],

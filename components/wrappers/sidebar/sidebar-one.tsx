@@ -33,36 +33,36 @@ export const SidebarOne = ({ className }: { className?: string }) => {
     }
   }, [user, pathname, router]);
 
-  const handleclick = (link: string) => {
+  const handleClick = (link: string) => {
     router.push(link, {});
   };
 
   return (
     <aside
       className={cn(
-        "min-h-screen bg-dark-2 text-white pt-28 w-[264px] text-white",
+        "min-h-screen bg-gray-50 text-dark-1 pt-28 w-[264px]",
         className
       )}
     >
       <Container>
         <Col className="gap-[16px]">
           {sidebarItems.map((item, idx) => {
+            const Icon = item.icon;
+
             return (
               <Button
-                onClick={() => handleclick(item.route)}
+                onClick={() => handleClick(item.route)}
                 key={idx}
                 className={cn(
-                  "p-6 transition duration-400 ease-in-out hover:bg-primary-400 hover:duration-700 flex justify-start capitalize rounded-[4px] overflow-hidden  w-full ",
-                  item.route === pathname ? "bg-primary-400" : "bg-transparent"
+                  "p-6 flex justify-start items-center gap-3 rounded-[4px] w-full transition duration-300 ease-in-out",
+                  item.route === pathname
+                    ? "bg-dark-2 text-white"
+                    : "bg-transparent text-dark-2 hover:bg-dark-2 hover:text-white"
                 )}
               >
-                <Image
-                  src={item.url}
-                  className="mr-4 h-4 w-4 text-white"
-                  width="24"
-                  height="24"
-                  alt="home"
-                />
+                {Icon && (
+                  <Icon className="w-5 h-5" />
+                )}
                 <span className="text-[16px] font-[100]">{item.label}</span>
               </Button>
             );

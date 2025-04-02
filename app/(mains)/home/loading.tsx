@@ -2,7 +2,7 @@ import { Container } from "@/components/ui/container";
 
 export default function Page() {
   return (
-    <section className="pt-24 py-6 bg-dark-1 flex-1 text-white min-h-screen">
+    <section className="pt-24 py-6 bg-gray-100 flex-1 text-dark-2 min-h-screen">
       <Container>
         <div className="flex flex-col gap-8 animate-pulse h-full">
 

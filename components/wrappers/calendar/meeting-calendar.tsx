@@ -38,21 +38,28 @@ export default function MeetingCalendar() {
   const events = useMemo(() => {
     return meetings.map((meeting) => {
       const start = new Date(meeting.startsAt);
-      const end = new Date(start.getTime() + 50 * 60 * 1000);
+      const end = new Date(start.getTime() + 60 * 60 * 1000);
+      const now = new Date();
 
       let backgroundColor = "#3b82f6";
-      if (currentEmail === "admin@skytutor.com") backgroundColor = "#9333ea";
-      else if (currentEmail === meeting.tutorEmail) backgroundColor = "#22c55e";
+
+      if (end < now) {
+        backgroundColor = "#9ca3af";
+      } else if (currentEmail === meeting.tutorEmail) {
+        backgroundColor = "#22c55e";
+      }
 
       return {
         id: meeting.callId,
-        title: meeting.description || "Cuộc họp cá nhân",
+        title: meeting.description || "Personal Meeting",
         start,
         end,
         backgroundColor,
         borderColor: backgroundColor,
         extendedProps: {
           url: `${process.env.NEXT_PUBLIC_BASE_URL}/meeting/${meeting.callId}`,
+          start,
+          end,
         },
       };
     });
@@ -82,6 +89,16 @@ export default function MeetingCalendar() {
               right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek",
             }}
             events={events}
+            eventContent={(arg) => {
+              const time = arg.timeText; // giờ tự động theo FullCalendar
+              const title = arg.event.title;
+              return (
+                <div className="text-xs px-1">
+                  <div className="font-semibold">{time}</div>
+                  <div>{title}</div>
+                </div>
+              );
+            }}
             eventClick={handleEventClick}
             slotMinTime="01:00:00"
             slotMaxTime="24:00:00"

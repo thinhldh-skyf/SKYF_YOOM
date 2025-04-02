@@ -14,6 +14,7 @@ import Image from "next/image";
 import * as Select from "@radix-ui/react-select";
 import { Check, ChevronDown } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import toast from "react-hot-toast";
 
 const tutors = [
   {
@@ -23,7 +24,6 @@ const tutors = [
     weekday: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
     email: "teacher@skytutor.com",
     name: "Nghiem E.",
-    language: "Vietnamese (Native), English (Fluent)",
     students: "15",
     rating: 4.9,
     price: 12,
@@ -141,8 +141,6 @@ export default function Page() {
   };
   const [values, setValues] = useState(initialValues);
 
-  const { user } = useUser();
-  console.log(user);
   const [selectedTutor, setSelectedTutor] = useState<any>(null);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [isLoading, setIsLoading] = useState(false);
@@ -179,7 +177,7 @@ export default function Page() {
       const { data } = await axios.post("/api/checkout", {
         tutorId: selectedTutor.id,
         time: selectedDate.toISOString(),
-        description: `${user?.username}'s meeting with tutor ${selectedTutor.name}`,
+        description: `Meeting with tutor ${selectedTutor.name}`,
         email: selectedTutor.email,
         price: selectedTutor.price,
       });
@@ -187,8 +185,12 @@ export default function Page() {
       if (stripe && data.url) {
         window.location.href = data.url;
       }
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      if (error.response?.data?.error) {
+        toast.error(error.response.data.error);
+      } else {
+        toast.error(error);
+      }
     } finally {
       setIsLoading(false);
     }
@@ -262,15 +264,15 @@ export default function Page() {
     return result;
   }, [category, keyword, weekday, price, sort]);
   return (
-    <section className="py-[120px] bg-dark-1 flex-1 text-white max-h-screen  overflow-y-auto">
+    <section className="py-[120px] bg-gray-100 flex-1 text-dark-2 max-h-screen  overflow-y-auto">
       <Container>
         <Grid className="grid grid-rows-auto space-y-4">
           <HomeCard />
           {/* <MeetingActions /> */}
 
           <div className="flex flex-col gap-4" style={{ marginTop: "40px" }}>
-            <h2 className="text-3xl font-bold text-left">
-              Online tutors & teachers for private lessons
+            <h2 className="text-3xl font-bold text-dark-2 text-left">
+              Online tutors & mentors for private lessons
             </h2>
 
             <div className="flex flex-col gap-4 items-center justify-center">
@@ -401,9 +403,9 @@ export default function Page() {
           </div>
 
           <div className="flex flex-col gap-4" style={{ marginTop: "40px" }}>
-            <h2 className="text-3xl font-bold">
+            <h2 className="text-3xl font-bold text-dark-2">
               {filteredTutors.length} {category !== "All" ? category : ""}{" "}
-              teachers available
+              mentors available
             </h2>
             <div className="rounded-xl shadow-lg p-4 space-y-4 ">
               {filteredTutors.map((tutor) => (
@@ -421,28 +423,26 @@ export default function Page() {
                     <div className="flex justify-between items-start">
                       <div>
                         <h3 className="font-bold text-xl">{tutor.name}</h3>
-                        <p className="text-sm text-white">{tutor.language}</p>
-                        <p className="text-sm text-white">
+                        <p className="text-sm text-dark-2">
                           {tutor.students} active students
                         </p>
-                        <div className="flex items-center gap-1 text-sm text-white">
+                        <div className="flex items-center gap-1 text-sm text-dark-2">
                           <StarIcon className="w-4 h-4 text-yellow-400" />
                           {tutor.rating} ({tutor.reviews} reviews)
                         </div>
                       </div>
 
                       <div className="flex flex-col items-end">
-                        <HeartIcon className="w-5 h-5 text-white cursor-pointer hover:text-red-500 transition" />
                         <span className="font-bold text-lg">
                           ${tutor.price}
                         </span>
                         <span className="text-xs text-gray-500">
-                          50-min lesson
+                          60-min mentor
                         </span>
                       </div>
                     </div>
 
-                    <p className="text-sm text-white mt-2">
+                    <p className="text-sm text-dark-2 mt-2">
                       {expandedTutor === tutor.id
                         ? tutor.description
                         : `${tutor.description.substring(0, 150)}...`}
@@ -457,8 +457,8 @@ export default function Page() {
                     </p>
 
                     {expandedTutor === tutor.id && (
-                      <div className="mt-4 bg-dark-2 p-3 rounded-lg">
-                        <h4 className="font-semibold text-white mb-2">
+                      <div className="mt-4 bg-gray-200 p-3 rounded-lg">
+                        <h4 className="font-semibold text-dark-2 mb-2">
                           Why choose {tutor.name}
                         </h4>
                         {tutor.comments.map((comment, index) => (
@@ -469,7 +469,7 @@ export default function Page() {
                             <p className="text-sm italic">
                               &ldquo;{comment.comment}&rdquo;
                             </p>
-                            <div className="text-xs mt-2 text-gray-400">
+                            <div className="text-xs mt-2 text-gray-600">
                               {comment.name} - {comment.createdAt}
                             </div>
                           </div>
@@ -487,7 +487,7 @@ export default function Page() {
                       >
                         Book lesson
                       </button>
-                      <button className="px-4 py-2 rounded-lg border border-gray-300 text-white hover:bg-gray-100 transition">
+                      <button className="px-4 py-2 rounded-lg border border-gray-300 text-dark-2 hover:bg-gray-100 transition">
                         Send message
                       </button>
                     </div>
@@ -497,7 +497,7 @@ export default function Page() {
 
               {isModalOpen && (
                 <div className="fixed inset-0 bg-gray-950 bg-opacity-50 flex items-center justify-center z-50">
-                  <div className="bg-gray-950 p-6 rounded-xl shadow-lg w-full max-w-lg relative">
+                  <div className="bg-gray-200 p-6 rounded-xl shadow-lg w-full max-w-lg relative">
                     <button
                       onClick={() => setModalOpen(false)}
                       className="absolute top-3 right-3 text-gray-500 hover:text-gray-700 transition"

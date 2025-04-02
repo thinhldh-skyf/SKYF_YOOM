@@ -1,11 +1,13 @@
+import { CalendarClock, Home } from "lucide-react";
+
 export const sidebar = [
   {
-    url: "/icons/home.svg",
+    icon: Home,
     label: "Home",
     route: "/home",
   },
   {
-    url: "/icons/upcoming.svg",
+    icon: CalendarClock,
     label: "Appointment",
     route: "/meeting/upcoming",
   },

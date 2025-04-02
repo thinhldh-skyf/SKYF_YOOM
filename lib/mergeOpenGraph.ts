@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 
 const defaultOpenGraph: Metadata["openGraph"] = {
   title: "SKYFTutor",
-  description: "Today’s most popular platform for booking teachers",
+  description: "Today’s most popular platform for booking mentors",
   images: [
     {
       url: `https://skyf.vercel.app/logo/logo.png`,

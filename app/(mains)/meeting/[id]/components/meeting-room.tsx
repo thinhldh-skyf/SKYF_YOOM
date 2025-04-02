@@ -27,7 +27,7 @@ import ModalMeeting from "@/components/ui/modal-meeting";
 import { Input } from "@/components/ui/input";
 import sendEmail from "@/actions/sendemail";
 
-type CallLayoutType = "speaker-left" | "speaker-right";
+type CallLayoutType = "grid" | "speaker-left" | "speaker-right";
 
 const CountdownTimer = ({ timeLeft }: { timeLeft: number | null }) => {
   return (
@@ -43,8 +43,8 @@ const CountdownTimer = ({ timeLeft }: { timeLeft: number | null }) => {
 
 const CallLayoutComponent = ({ layout }: { layout: CallLayoutType }) => {
   switch (layout) {
-    // case "grid":
-    //   return <PaginatedGridLayout />;
+    case "grid":
+      return <PaginatedGridLayout />;
     case "speaker-right":
       return <SpeakerLayout participantsBarPosition="left" />;
     default:
@@ -67,7 +67,7 @@ export const MeetingRoom = () => {
     undefined
   );
   const [values, setValues] = useState(initialValues);
-  const [timeLeft, setTimeLeft] = useState<number | null>(50 * 60);
+  const [timeLeft, setTimeLeft] = useState<number | null>(60 * 60);
 
   const { useCallCallingState, useLocalParticipant } = useCallStateHooks();
   const callingState = useCallCallingState();
@@ -90,7 +90,7 @@ export const MeetingRoom = () => {
           await call.update({
             custom: { ...call.state.custom, startedAt: now },
           });
-          setTimeLeft(50 * 60);
+          setTimeLeft(60 * 60);
           return;
         }
 
@@ -100,7 +100,7 @@ export const MeetingRoom = () => {
           const elapsed = Math.floor(
             (now.getTime() - started.getTime()) / 1000
           );
-          setTimeLeft(Math.max(50 * 60 - elapsed, 0));
+          setTimeLeft(Math.max(60 * 60 - elapsed, 0));
         }
       }
     };
@@ -138,7 +138,7 @@ export const MeetingRoom = () => {
       <CountdownTimer timeLeft={timeLeft} />
 
       <div className="relative flex size-full items-center justify-center">
-        <div className="flex size-full max-w-[700px] items-center">
+        <div className="flex-1 w-full flex items-center justify-center">
           <CallLayoutComponent layout={layout} />
         </div>
         <div
@@ -161,7 +161,7 @@ export const MeetingRoom = () => {
               </DropdownMenuTrigger>
             </div>
             <DropdownMenuContent className="border-dark-1 bg-dark-2 text-white rounded-sm">
-              {["Speaker-Left", "Speaker-Right"].map((item, index) => (
+              {["Grid", "Speaker-Left", "Speaker-Right"].map((item, index) => (
                 <div key={index}>
                   <DropdownMenuItem
                     onClick={() =>

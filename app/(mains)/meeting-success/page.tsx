@@ -61,9 +61,9 @@ export default function MeetingSuccess() {
   }, [client, description, meetingTime, router]);
 
   return (
-    <div className="fixed inset-0 flex justify-center items-center bg-dark-1 text-white">
+    <div className="fixed inset-0 flex justify-center items-center bg-gray-100 text-dark-2">
       <div className="text-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white mx-auto mb-4"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-dark-2 mx-auto mb-4"></div>
         <p className="text-xl">Creating meeting, please wait...</p>
       </div>
     </div>

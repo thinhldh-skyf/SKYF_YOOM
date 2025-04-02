@@ -7,7 +7,7 @@ import { Metadata } from "next";
 
 export default function Page() {
   return (
-    <section className="pt-24 bg-dark-1 flex-1 text-white min-h-screen">
+    <section className="pt-24 bg-gray-100 flex-1 text-dark-2 min-h-screen">
       <Container>
         <Heading title="Upcoming meetings." />
         {/* <Meeting show={6} type="upcoming" /> */}

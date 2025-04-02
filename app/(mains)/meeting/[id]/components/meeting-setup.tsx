@@ -46,7 +46,7 @@ export const MeetingSetup = ({
 
   return (
     <>
-      <Col className="items-center justify-center items-center h-full gap-8">
+      <Col className="items-center justify-center h-full gap-8">
         <Heading title="Setup meeting" />
         <VideoPreview />
 

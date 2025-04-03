@@ -12,7 +12,7 @@ import {
   useCall,
 } from "@stream-io/video-react-sdk";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Users, LayoutList } from "lucide-react";
+import { Users, LayoutList, MessageCircle, X } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -26,8 +26,28 @@ import { cn } from "@/lib/utils";
 import ModalMeeting from "@/components/ui/modal-meeting";
 import { Input } from "@/components/ui/input";
 import sendEmail from "@/actions/sendemail";
+import {
+  Chat as ChatUI,
+  Channel,
+  MessageList,
+  MessageInput,
+  Window,
+} from "stream-chat-react";
+
+import "stream-chat-react/dist/css/v2/index.css";
+import { useChatChannel } from "@/hooks/useChatChannel";
 
 type CallLayoutType = "grid" | "speaker-left" | "speaker-right";
+
+const CustomEmptyState = () => (
+  <div className="flex flex-col items-center justify-center h-full p-6 text-center">
+    <div className="text-5xl mb-4">💬</div>
+    <h2 className="text-white text-xl font-semibold mb-1">Start chatting!</h2>
+    <p className="text-gray-400 text-sm max-w-xs">
+      Let’s get this chat started, why not send the first message?
+    </p>
+  </div>
+);
 
 const CountdownTimer = ({ timeLeft }: { timeLeft: number | null }) => {
   return (
@@ -73,6 +93,9 @@ export const MeetingRoom = () => {
   const callingState = useCallCallingState();
   const localParticipant = useLocalParticipant();
   const call = useCall();
+  const callId = call?.id || "";
+  const { channel: chatChannel, chatClient } = useChatChannel(callId);
+  const [showChat, setShowChat] = useState(false);
 
   const isHost =
     localParticipant &&
@@ -141,14 +164,34 @@ export const MeetingRoom = () => {
         <div className="flex-1 w-full flex items-center justify-center">
           <CallLayoutComponent layout={layout} />
         </div>
-        <div
-          className={cn(
-            "shadow-lg bg-dark-2 px-8 pt-20 transition-all w-[320px] fixed right-0 top-0 min-h-screen",
-            showParticipants ? "block" : "hidden"
-          )}
-        >
-          <CallParticipantsList onClose={() => setShowParticipants(false)} />
-        </div>
+
+        {showParticipants && (
+          <div className="shadow-lg bg-dark-2 px-8 pt-20 transition-all w-[320px] fixed right-0 top-0 min-h-screen z-40">
+            <CallParticipantsList onClose={() => setShowParticipants(false)} />
+          </div>
+        )}
+
+        {showChat && chatClient && chatChannel && (
+          <div className="fixed right-0 top-0 h-screen w-[360px] bg-[#121212] text-white z-40 flex flex-col shadow-xl rounded-l-2xl">
+            <div className="flex items-center justify-between px-5 py-4 border-b border-gray-700">
+              <h2 className="text-lg font-semibold">Chat</h2>
+              <button onClick={() => setShowChat(false)}>
+                <X className="text-white w-5 h-5" />
+              </button>
+            </div>
+            <ChatUI client={chatClient} theme="str-chat__theme-dark">
+              <Channel
+                channel={chatChannel}
+                EmptyStateIndicator={CustomEmptyState}
+              >
+                <Window>
+                  <MessageList />
+                  <MessageInput />
+                </Window>
+              </Channel>
+            </ChatUI>
+          </div>
+        )}
       </div>
 
       <div className="flex w-full flex-wrap items-center gap-5 justify-center pt-20">
@@ -184,6 +227,12 @@ export const MeetingRoom = () => {
           >
             <div className="cursor-pointer rounded-2xl bg-[#19232d] px-4 py-2 hover:bg-[#4c535b]">
               <Users size={20} className="text-white" />
+            </div>
+          </button>
+
+          <button title="Chat" onClick={() => setShowChat((prev) => !prev)}>
+            <div className="cursor-pointer rounded-2xl bg-[#19232d] px-4 py-2 hover:bg-[#4c535b]">
+              <MessageCircle size={20} className="text-white" />
             </div>
           </button>
 

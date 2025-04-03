@@ -21,24 +21,16 @@ export const HeaderOne = () => {
           <Logo />
 
           <div className="ms-auto me-8 flex items-center gap-6">
-            <div className="border-2 border-white rounded-md">
-              {role === "student" && (
+            {role === "student" && (
+              <div className="border-2 border-white rounded-md">
                 <Button
                   variant="surface"
                   className="p-2 border-2 border-white rounded-md bg-dark-2 transition"
                 >
                   <span className="text-white">Become a mentor</span>
                 </Button>
-              )}
-              {role === "teacher" && (
-                <Button
-                  variant="surface"
-                  className="p-2 border-2 border-white rounded-md bg-dark-2 transition"
-                >
-                  <span className="text-white">Become a learner</span>
-                </Button>
-              )}
-            </div>
+              </div>
+            )}
 
             <UserButton afterSignOutUrl="/" />
           </div>

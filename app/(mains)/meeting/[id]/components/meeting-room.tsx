@@ -161,7 +161,7 @@ export const MeetingRoom = () => {
       <CountdownTimer timeLeft={timeLeft} />
 
       <div className="relative flex size-full items-center justify-center">
-        <div className="flex-1 w-full flex items-center justify-center">
+        <div className="flex size-full max-w-[700px] items-center">
           <CallLayoutComponent layout={layout} />
         </div>
 

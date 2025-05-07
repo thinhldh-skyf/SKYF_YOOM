@@ -5,11 +5,7 @@ export default authMiddleware({
   ignoredRoutes: ["/"],
   async afterAuth(auth, req) {
     if (!auth.userId && !auth.isPublicRoute) {
-      const host = req.headers.get("host");
-      const protocol = req.headers.get("x-forwarded-proto") || "https";
-      const pathname = new URL(req.url).pathname;
-      const returnBackUrl = `${protocol}://${host}${pathname}`;
-      return redirectToSignIn({ returnBackUrl });
+      return redirectToSignIn({ returnBackUrl: req.url });
     }
 
     if (auth.userId) {
